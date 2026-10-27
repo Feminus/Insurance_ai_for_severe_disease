@@ -1,0 +1,3137 @@
+{
+  "_meta": {
+    "source": "由 judgment_rules.json(100 条重疾规则) + icd_official.json(国临版 ICD-10)生成",
+    "extraction_date": "2026-10-13",
+    "purpose": "建立 100 条重疾 ↔ ICD-10 映射,作为 LLM 抽取后的初判依据",
+    "total_diseases": 100,
+    "structure": "每条 R 规则(重疾)对应一个 entry,包含:rule_id, canonical, icd_ranges, primary_codes, sub_diseases(子类 + 子码示例), keywords, exclusion_warning, note",
+    "stats": {
+      "rules_total": 100,
+      "primary_codes_total": 140,
+      "sub_diseases_total": 171,
+      "icd_examples_total": 379,
+      "missing_codes_in_dict": 0
+    },
+    "icd10_ranges": {
+      "A00-B99": "传染病与寄生虫病",
+      "C00-D48": "肿瘤(恶性 C00-C97 / 原位癌 D00-D09 / 良性 D10-D36 / 动态未定 D37-D48)",
+      "D50-D89": "血液和造血器官疾病",
+      "E00-E90": "内分泌/营养/代谢",
+      "F00-F99": "精神和行为障碍",
+      "G00-G99": "神经系统",
+      "H00-H59": "眼和附器",
+      "H60-H95": "耳和乳突",
+      "I00-I99": "循环系统(心脑血管)",
+      "J00-J99": "呼吸系统",
+      "K00-K93": "消化系统",
+      "M00-M99": "肌肉骨骼和结缔组织",
+      "N00-N99": "泌尿生殖系统",
+      "Q00-Q99": "先天畸形/染色体",
+      "R00-R99": "症状/体征/异常",
+      "S00-T98": "损伤/中毒/外因",
+      "Z00-Z99": "影响健康状态/与保健机构接触"
+    },
+    "notes": {
+      "DICT_MISSING": "部分 ICD 码(尤其 F00 痴呆亚类、F02 痴呆亚类、F70-F79 智力障碍亚类、I41 感染性心肌炎亚类、A17 结核性脑膜炎亚类、M05/M06 RA 亚类、M08 JIA 亚类、M31.4 多发性大动脉炎亚类)在国临版 ICD 字典中暂未收录,后续可考虑从国家临床版 2.0 扩充字典补全",
+      "适用范围": "本表主要为 LLM 抽取后做'是不是重疾'初判;复杂边界(早期/亚型/分期)需结合 judgment_rules.json 的 criteria/exclusions 二次判定"
+    }
+  },
+  "diseases": [
+    {
+      "rule_id": "R001",
+      "canonical": "恶性肿瘤——重度",
+      "icd_ranges": [
+        "C00-C97",
+        "D00-D48(部分)"
+      ],
+      "primary_codes": [],
+      "keywords": [
+        "恶性肿瘤",
+        "癌",
+        "白血病",
+        "淋巴瘤",
+        "肉瘤",
+        "母细胞瘤",
+        "胶质瘤"
+      ],
+      "sub_diseases": [
+        {
+          "name": "肺恶性肿瘤",
+          "icd_examples": [
+            "C34.900",
+            "C34.300x003",
+            "C34.200x001"
+          ]
+        },
+        {
+          "name": "乳房恶性肿瘤",
+          "icd_examples": [
+            "C50.900"
+          ]
+        },
+        {
+          "name": "肝细胞癌",
+          "icd_examples": [
+            "C22.000",
+            "C22.900"
+          ]
+        },
+        {
+          "name": "食管恶性肿瘤",
+          "icd_examples": [
+            "C15.900"
+          ]
+        },
+        {
+          "name": "胃恶性肿瘤",
+          "icd_examples": [
+            "C16.900",
+            "C16.200",
+            "C16.000"
+          ]
+        },
+        {
+          "name": "结肠/直肠恶性肿瘤",
+          "icd_examples": [
+            "C18.900",
+            "C18.700",
+            "C18.200",
+            "C20.x00"
+          ]
+        },
+        {
+          "name": "甲状腺恶性肿瘤",
+          "icd_examples": [
+            "C73.x00"
+          ]
+        },
+        {
+          "name": "肾/膀胱/输尿管恶性肿瘤",
+          "icd_examples": [
+            "C64.x00x001",
+            "C67.900"
+          ]
+        },
+        {
+          "name": "宫颈/子宫恶性肿瘤",
+          "icd_examples": [
+            "C53.900",
+            "C54.100"
+          ]
+        },
+        {
+          "name": "急性白血病/慢性白血病",
+          "icd_examples": [
+            "C92.000x004",
+            "C92.400x001",
+            "C91.000",
+            "C92.100"
+          ]
+        },
+        {
+          "name": "淋巴瘤(霍奇金/非霍奇金)",
+          "icd_examples": [
+            "C81.900",
+            "C83.300",
+            "C84.400x001",
+            "C85.900"
+          ]
+        },
+        {
+          "name": "脑恶性肿瘤",
+          "icd_examples": [
+            "C71.000",
+            "C71.900",
+            "C72.000",
+            "C72.900"
+          ]
+        },
+        {
+          "name": "骨/软骨恶性肿瘤",
+          "icd_examples": [
+            "C40.900",
+            "C41.900"
+          ]
+        },
+        {
+          "name": "皮肤恶性肿瘤(黑色素瘤)",
+          "icd_examples": [
+            "C43.900"
+          ]
+        },
+        {
+          "name": "多发性骨髓瘤",
+          "icd_examples": [
+            "C90.000",
+            "C90.001"
+          ]
+        },
+        {
+          "name": "嗜铬细胞瘤(恶性)",
+          "icd_examples": [
+            "C74.900"
+          ]
+        }
+      ],
+      "exclusion_warning": "排除:ICD-O-3 形态学 0/1/2(良性/动态未定性/原位癌)、TNM Ⅰ 期甲状腺癌、T1N0M0 前列腺癌、A 期 CLL、Ann Arbor Ⅰ 期霍奇金、G1 神经内分泌肿瘤、孤立性骨髓瘤"
+    },
+    {
+      "rule_id": "R002",
+      "canonical": "较重急性心肌梗死",
+      "icd_ranges": [
+        "I20-I25"
+      ],
+      "primary_codes": [
+        "I21.900"
+      ],
+      "keywords": [
+        "心肌梗死",
+        "心梗",
+        "MI",
+        "STEMI"
+      ],
+      "sub_diseases": [
+        {
+          "name": "急性心肌梗死",
+          "icd_examples": [
+            "I21.900",
+            "I21.000",
+            "I21.100",
+            "I21.200",
+            "I21.300",
+            "I21.400"
+          ]
+        },
+        {
+          "name": "ST 段抬高型心肌梗死(STEMI)",
+          "icd_examples": [
+            "I21.300"
+          ]
+        },
+        {
+          "name": "非 ST 段抬高型心肌梗死(NSTEMI)",
+          "icd_examples": [
+            "I21.400"
+          ]
+        },
+        {
+          "name": "急性下壁/侧壁心肌梗死",
+          "icd_examples": [
+            "I21.100x003",
+            "I21.105",
+            "I21.200x028",
+            "I21.206"
+          ]
+        }
+      ],
+      "exclusion_warning": "排除:非冠状动脉阻塞引起的 cTn 升高"
+    },
+    {
+      "rule_id": "R003",
+      "canonical": "严重脑中风后遗症",
+      "icd_ranges": [
+        "I60-I69"
+      ],
+      "primary_codes": [
+        "I63.900"
+      ],
+      "keywords": [
+        "脑梗死",
+        "脑出血",
+        "脑中风",
+        "卒中",
+        "脑栓塞",
+        "脑梗塞"
+      ],
+      "sub_diseases": [
+        {
+          "name": "脑梗死",
+          "icd_examples": [
+            "I63.900",
+            "I63.904",
+            "I63.907",
+            "I63.801",
+            "I63.902"
+          ]
+        },
+        {
+          "name": "脑出血",
+          "icd_examples": [
+            "I61.900",
+            "I61.000",
+            "I61.100",
+            "I61.200",
+            "I61.300",
+            "I61.400",
+            "I61.500",
+            "I61.600",
+            "I61.800"
+          ]
+        },
+        {
+          "name": "蛛网膜下腔出血",
+          "icd_examples": [
+            "I60.900"
+          ]
+        },
+        {
+          "name": "脑血管病后遗症",
+          "icd_examples": [
+            "I69.300",
+            "I69.400",
+            "I69.800"
+          ]
+        }
+      ],
+      "note": "须 180 天后仍遗留至少一种障碍:肌力 2 级以下/语言能力完全丧失/生活能力完全丧失"
+    },
+    {
+      "rule_id": "R004",
+      "canonical": "重大器官移植术或造血干细胞移植术",
+      "icd_ranges": [
+        "Z94"
+      ],
+      "primary_codes": [
+        "Z94.000"
+      ],
+      "keywords": [
+        "器官移植",
+        "异体移植",
+        "造血干细胞移植"
+      ],
+      "sub_diseases": [
+        {
+          "name": "肾移植状态",
+          "icd_examples": [
+            "Z94.000",
+            "Z94.001",
+            "Z94.002"
+          ]
+        },
+        {
+          "name": "心脏移植状态",
+          "icd_examples": [
+            "Z94.100"
+          ]
+        },
+        {
+          "name": "肺移植状态",
+          "icd_examples": [
+            "Z94.200"
+          ]
+        },
+        {
+          "name": "心肺联合移植",
+          "icd_examples": [
+            "Z94.300"
+          ]
+        },
+        {
+          "name": "肝移植状态",
+          "icd_examples": [
+            "Z94.400"
+          ]
+        },
+        {
+          "name": "骨髓/造血干细胞移植状态",
+          "icd_examples": [
+            "Z94.800x010",
+            "Z94.800x011",
+            "Z94.802"
+          ]
+        }
+      ],
+      "note": "判定取决于是否实施了移植手术,而非具体疾病"
+    },
+    {
+      "rule_id": "R005",
+      "canonical": "冠状动脉搭桥术",
+      "icd_ranges": [
+        "Z95.1"
+      ],
+      "primary_codes": [
+        "Z95.100",
+        "Z95.101"
+      ],
+      "keywords": [
+        "冠状动脉搭桥",
+        "CABG",
+        "旁路移植",
+        "冠状动脉旁路"
+      ],
+      "sub_diseases": [
+        {
+          "name": "主动脉冠状动脉搭桥术后",
+          "icd_examples": [
+            "Z95.100",
+            "Z95.101"
+          ]
+        }
+      ],
+      "exclusion_warning": "排除:未切开心包的冠状动脉介入治疗"
+    },
+    {
+      "rule_id": "R006",
+      "canonical": "严重慢性肾衰竭",
+      "icd_ranges": [
+        "N18",
+        "N19"
+      ],
+      "primary_codes": [
+        "N18.000",
+        "N19.x00"
+      ],
+      "keywords": [
+        "慢性肾衰竭",
+        "尿毒症",
+        "肾衰",
+        "慢性肾病 5 期",
+        "CKD5"
+      ],
+      "sub_diseases": [
+        {
+          "name": "慢性肾脏病 5 期(尿毒症期)",
+          "icd_examples": [
+            "N18.000"
+          ]
+        },
+        {
+          "name": "未特指的肾衰竭",
+          "icd_examples": [
+            "N19.x00"
+          ]
+        },
+        {
+          "name": "依赖肾透析",
+          "icd_examples": [
+            "Z99.200",
+            "Z99.201",
+            "Z49.101"
+          ]
+        }
+      ],
+      "note": "须规律透析 ≥ 90 天"
+    },
+    {
+      "rule_id": "R007",
+      "canonical": "多个肢体缺失",
+      "icd_ranges": [
+        "Z89"
+      ],
+      "primary_codes": [
+        "Z89.700"
+      ],
+      "keywords": [
+        "肢体缺失",
+        "断离",
+        "截肢"
+      ],
+      "sub_diseases": [
+        {
+          "name": "后天性双下肢缺失",
+          "icd_examples": [
+            "Z89.700"
+          ]
+        },
+        {
+          "name": "单侧手指/手/腕/上肢缺失",
+          "icd_examples": [
+            "Z89.000",
+            "Z89.100",
+            "Z89.200",
+            "Z89.300"
+          ]
+        },
+        {
+          "name": "下肢缺失",
+          "icd_examples": [
+            "Z89.500",
+            "Z89.600"
+          ]
+        }
+      ],
+      "note": "≥ 2 个肢体自腕/踝近端完全断离"
+    },
+    {
+      "rule_id": "R008",
+      "canonical": "急性重症肝炎或亚急性重症肝炎",
+      "icd_ranges": [
+        "B15-B19",
+        "K72.0"
+      ],
+      "primary_codes": [
+        "K72.000"
+      ],
+      "keywords": [
+        "重症肝炎",
+        "急性肝衰竭",
+        "亚急性肝坏死",
+        "肝昏迷"
+      ],
+      "sub_diseases": [
+        {
+          "name": "急性乙型病毒性肝炎伴肝昏迷",
+          "icd_examples": [
+            "B16.201"
+          ]
+        },
+        {
+          "name": "急性肝衰竭",
+          "icd_examples": [
+            "K72.000",
+            "K72.001"
+          ]
+        },
+        {
+          "name": "重症肝炎",
+          "icd_examples": [
+            "K72.000x013"
+          ]
+        }
+      ],
+      "note": "须同时满足:重度黄疸/肝性脑病/肝脏体积急速萎缩/肝功能指标进行性恶化"
+    },
+    {
+      "rule_id": "R009",
+      "canonical": "严重非恶性颅内肿瘤",
+      "icd_ranges": [
+        "D32",
+        "D33",
+        "D35.2",
+        "D42",
+        "D43"
+      ],
+      "primary_codes": [
+        "D32.000",
+        "D33.200"
+      ],
+      "keywords": [
+        "颅内良性",
+        "脑膜瘤",
+        "脑神经肿瘤",
+        "颅内良性肿瘤"
+      ],
+      "sub_diseases": [
+        {
+          "name": "脑膜良性肿瘤",
+          "icd_examples": [
+            "D32.000",
+            "D32.100",
+            "D32.900"
+          ]
+        },
+        {
+          "name": "脑/脑神经良性肿瘤",
+          "icd_examples": [
+            "D33.000",
+            "D33.100",
+            "D33.200",
+            "D33.300"
+          ]
+        },
+        {
+          "name": "脊髓/脑神经根良性肿瘤",
+          "icd_examples": [
+            "D33.400",
+            "D33.700"
+          ]
+        },
+        {
+          "name": "垂体良性肿瘤",
+          "icd_examples": [
+            "D35.200",
+            "D35.200x010",
+            "D35.200x007",
+            "D35.200x008"
+          ]
+        }
+      ],
+      "exclusion_warning": "排除:脑囊肿、颅内血管性疾病(脑动脉瘤/动静脉畸形/海绵状血管瘤等);⚠️ 注:原文同时排除'脑垂体瘤',与主病范围冲突,以原文条款为准"
+    },
+    {
+      "rule_id": "R010",
+      "canonical": "严重慢性肝衰竭",
+      "icd_ranges": [
+        "K72.1",
+        "K74"
+      ],
+      "primary_codes": [
+        "K72.100"
+      ],
+      "keywords": [
+        "慢性肝衰竭",
+        "肝硬化失代偿",
+        "门静脉高压"
+      ],
+      "sub_diseases": [
+        {
+          "name": "慢性肝衰竭",
+          "icd_examples": [
+            "K72.100"
+          ]
+        },
+        {
+          "name": "肝硬化",
+          "icd_examples": [
+            "K74.600",
+            "K74.000",
+            "K74.100",
+            "K74.200",
+            "K74.300",
+            "K74.500"
+          ]
+        }
+      ],
+      "exclusion_warning": "排除:酗酒/药物滥用导致的肝衰竭"
+    },
+    {
+      "rule_id": "R011",
+      "canonical": "严重脑炎后遗症或严重脑膜炎后遗症",
+      "icd_ranges": [
+        "G04",
+        "G05",
+        "G09"
+      ],
+      "primary_codes": [
+        "G04.800",
+        "G04.801"
+      ],
+      "keywords": [
+        "脑炎",
+        "脑膜炎",
+        "脑膜脑炎"
+      ],
+      "sub_diseases": [
+        {
+          "name": "脑炎",
+          "icd_examples": [
+            "G04.801",
+            "G04.800"
+          ]
+        },
+        {
+          "name": "脑膜炎",
+          "icd_examples": [
+            "G03.900",
+            "G03.000",
+            "G03.100",
+            "G03.200",
+            "G03.800"
+          ]
+        }
+      ],
+      "note": "须 180 天后仍存在障碍"
+    },
+    {
+      "rule_id": "R012",
+      "canonical": "深度昏迷",
+      "icd_ranges": [
+        "R40.2"
+      ],
+      "primary_codes": [
+        "R40.200"
+      ],
+      "keywords": [
+        "深度昏迷",
+        "GCS≤5",
+        "植物状态",
+        "昏迷"
+      ],
+      "sub_diseases": [
+        {
+          "name": "昏迷",
+          "icd_examples": [
+            "R40.200"
+          ]
+        }
+      ],
+      "exclusion_warning": "排除:酗酒/药物滥用"
+    },
+    {
+      "rule_id": "R013",
+      "canonical": "双耳失聪",
+      "icd_ranges": [
+        "H90",
+        "H91"
+      ],
+      "primary_codes": [
+        "H90.500",
+        "H91.900"
+      ],
+      "keywords": [
+        "双耳失聪",
+        "听力丧失",
+        "耳聋"
+      ],
+      "sub_diseases": [
+        {
+          "name": "双侧感音神经性聋",
+          "icd_examples": [
+            "H90.500",
+            "H90.300"
+          ]
+        },
+        {
+          "name": "双侧传导性聋",
+          "icd_examples": [
+            "H90.000",
+            "H90.100",
+            "H90.200"
+          ]
+        }
+      ],
+      "note": "平均听阈 ≥ 91dB;≥ 3 周岁"
+    },
+    {
+      "rule_id": "R014",
+      "canonical": "双目失明",
+      "icd_ranges": [
+        "H54"
+      ],
+      "primary_codes": [
+        "H54.000",
+        "H54.100"
+      ],
+      "keywords": [
+        "双目失明",
+        "双眼视力丧失",
+        "失明"
+      ],
+      "sub_diseases": [
+        {
+          "name": "双眼盲",
+          "icd_examples": [
+            "H54.000",
+            "H54.100"
+          ]
+        },
+        {
+          "name": "眼球缺失",
+          "icd_examples": [
+            "Z90.000x007"
+          ]
+        }
+      ],
+      "note": "较好眼矫正视力 < 0.02 或视野 < 5°;≥ 3 周岁"
+    },
+    {
+      "rule_id": "R015",
+      "canonical": "瘫痪",
+      "icd_ranges": [
+        "G81",
+        "G82"
+      ],
+      "primary_codes": [
+        "G82.200",
+        "G81.900"
+      ],
+      "keywords": [
+        "瘫痪",
+        "截瘫",
+        "四肢瘫",
+        "偏瘫"
+      ],
+      "sub_diseases": [
+        {
+          "name": "偏瘫",
+          "icd_examples": [
+            "G81.900",
+            "G81.000",
+            "G81.100"
+          ]
+        },
+        {
+          "name": "截瘫",
+          "icd_examples": [
+            "G82.200",
+            "G82.000",
+            "G82.100"
+          ]
+        },
+        {
+          "name": "四肢瘫",
+          "icd_examples": [
+            "G82.500"
+          ]
+        }
+      ],
+      "note": "≥ 2 肢,180 天后仍存在"
+    },
+    {
+      "rule_id": "R016",
+      "canonical": "心脏瓣膜手术",
+      "icd_ranges": [
+        "Z95.2-Z95.3"
+      ],
+      "primary_codes": [
+        "Z95.200x002"
+      ],
+      "keywords": [
+        "心脏瓣膜",
+        "瓣膜置换",
+        "瓣膜修复"
+      ],
+      "sub_diseases": [
+        {
+          "name": "机械瓣置换状态",
+          "icd_examples": [
+            "Z95.200x002",
+            "Z95.200x003",
+            "Z95.200x004"
+          ]
+        },
+        {
+          "name": "生物瓣置换状态",
+          "icd_examples": [
+            "Z95.300x002",
+            "Z95.300x003",
+            "Z95.300x004"
+          ]
+        }
+      ],
+      "exclusion_warning": "排除:未切开心脏的瓣膜介入手术"
+    },
+    {
+      "rule_id": "R017",
+      "canonical": "严重阿尔茨海默病",
+      "icd_ranges": [
+        "G30",
+        "F00"
+      ],
+      "primary_codes": [
+        "G30.900"
+      ],
+      "keywords": [
+        "阿尔茨海默",
+        "老年痴呆",
+        "认知功能障碍"
+      ],
+      "sub_diseases": [
+        {
+          "name": "阿尔茨海默病性痴呆",
+          "icd_examples": []
+        },
+        {
+          "name": "阿尔茨海默病",
+          "icd_examples": [
+            "G30.900",
+            "G30.000",
+            "G30.100",
+            "G30.800"
+          ]
+        }
+      ],
+      "exclusion_warning": "排除:阿尔茨海默病之外的其他类型痴呆;F00 亚类在国临版 ICD 字典中暂未收录,后续补充"
+    },
+    {
+      "rule_id": "R018",
+      "canonical": "严重脑损伤",
+      "icd_ranges": [
+        "S06"
+      ],
+      "primary_codes": [
+        "S06.900"
+      ],
+      "keywords": [
+        "脑损伤",
+        "颅脑外伤",
+        "脑挫裂伤"
+      ],
+      "sub_diseases": [
+        {
+          "name": "颅内损伤",
+          "icd_examples": [
+            "S06.900",
+            "S06.000",
+            "S06.100",
+            "S06.200",
+            "S06.300",
+            "S06.400",
+            "S06.500",
+            "S06.600",
+            "S06.700",
+            "S06.800"
+          ]
+        }
+      ],
+      "note": "180 天后仍遗留至少一种障碍"
+    },
+    {
+      "rule_id": "R019",
+      "canonical": "严重原发性帕金森病",
+      "icd_ranges": [
+        "G20",
+        "F02.3"
+      ],
+      "primary_codes": [
+        "G20.x00"
+      ],
+      "keywords": [
+        "帕金森",
+        "震颤麻痹"
+      ],
+      "sub_diseases": [
+        {
+          "name": "原发性帕金森病",
+          "icd_examples": [
+            "G20.x00",
+            "G20.x00x011"
+          ]
+        }
+      ],
+      "exclusion_warning": "排除:继发性帕金森综合征、帕金森叠加综合征(G20.x01)"
+    },
+    {
+      "rule_id": "R020",
+      "canonical": "严重Ⅲ度烧伤",
+      "icd_ranges": [
+        "T20-T25",
+        "T29-T32"
+      ],
+      "primary_codes": [
+        "T31.000",
+        "T31.100"
+      ],
+      "keywords": [
+        "Ⅲ度烧伤",
+        "严重烧伤",
+        "三度烧伤"
+      ],
+      "sub_diseases": [
+        {
+          "name": "体表 10-19% 烧伤",
+          "icd_examples": [
+            "T31.100",
+            "T31.100x001"
+          ]
+        },
+        {
+          "name": "体表 20-29% 烧伤",
+          "icd_examples": [
+            "T31.200",
+            "T31.200x001"
+          ]
+        },
+        {
+          "name": "体表 30-100% 烧伤",
+          "icd_examples": [
+            "T31.300",
+            "T31.400",
+            "T31.500",
+            "T31.600",
+            "T31.700",
+            "T31.800"
+          ]
+        }
+      ],
+      "note": "Ⅲ度面积 ≥ 20% 体表面积"
+    },
+    {
+      "rule_id": "R021",
+      "canonical": "严重特发性肺动脉高压",
+      "icd_ranges": [
+        "I27.0"
+      ],
+      "primary_codes": [
+        "I27.000",
+        "I27.000x006"
+      ],
+      "keywords": [
+        "特发性肺动脉高压",
+        "肺动脉高压"
+      ],
+      "sub_diseases": [
+        {
+          "name": "原发性肺动脉高压",
+          "icd_examples": [
+            "I27.000"
+          ]
+        },
+        {
+          "name": "特发性肺动脉高压",
+          "icd_examples": [
+            "I27.000x006"
+          ]
+        }
+      ],
+      "note": "NYHA Ⅳ 级 + 平均肺动脉压 ≥ 36mmHg"
+    },
+    {
+      "rule_id": "R022",
+      "canonical": "严重运动神经元病",
+      "icd_ranges": [
+        "G12"
+      ],
+      "primary_codes": [
+        "G12.200"
+      ],
+      "keywords": [
+        "运动神经元",
+        "肌萎缩侧索硬化",
+        "ALS",
+        "渐冻症"
+      ],
+      "sub_diseases": [
+        {
+          "name": "肌萎缩性侧索硬化症(ALS)",
+          "icd_examples": [
+            "G12.200",
+            "G12.201"
+          ]
+        },
+        {
+          "name": "进行性脊肌萎缩症",
+          "icd_examples": [
+            "G12.100",
+            "G12.000"
+          ]
+        },
+        {
+          "name": "进行性延髓麻痹",
+          "icd_examples": [
+            "G12.200x011"
+          ]
+        },
+        {
+          "name": "原发性侧索硬化症",
+          "icd_examples": [
+            "G12.200x012"
+          ]
+        }
+      ],
+      "note": "满足任一:咀嚼吞咽障碍/呼吸机 ≥ 7 天/生活能力完全丧失"
+    },
+    {
+      "rule_id": "R023",
+      "canonical": "语言能力丧失",
+      "icd_ranges": [
+        "R47.0"
+      ],
+      "primary_codes": [
+        "R47.000"
+      ],
+      "keywords": [
+        "语言能力丧失",
+        "失语",
+        "失声"
+      ],
+      "sub_diseases": [
+        {
+          "name": "失语",
+          "icd_examples": [
+            "R47.000"
+          ]
+        }
+      ],
+      "exclusion_warning": "排除:精神心理因素所致;≥ 3 周岁"
+    },
+    {
+      "rule_id": "R024",
+      "canonical": "重型再生障碍性贫血",
+      "icd_ranges": [
+        "D61"
+      ],
+      "primary_codes": [
+        "D61.900"
+      ],
+      "keywords": [
+        "再生障碍性贫血",
+        "重型再障",
+        "骨髓衰竭"
+      ],
+      "sub_diseases": [
+        {
+          "name": "再生障碍性贫血",
+          "icd_examples": [
+            "D61.900"
+          ]
+        }
+      ],
+      "note": "骨髓增生 < 25% + 外周血三系至少两项异常;D61 子类需补充"
+    },
+    {
+      "rule_id": "R025",
+      "canonical": "主动脉手术",
+      "icd_ranges": [
+        "Z95.8"
+      ],
+      "primary_codes": [
+        "Z95.800x001"
+      ],
+      "keywords": [
+        "主动脉手术",
+        "主动脉置换",
+        "主动脉修补"
+      ],
+      "sub_diseases": [
+        {
+          "name": "主动脉置换/修补术后",
+          "icd_examples": [
+            "Z95.800x001"
+          ]
+        }
+      ],
+      "exclusion_warning": "排除:未开胸/开腹的动脉内介入治疗;不含分支血管"
+    },
+    {
+      "rule_id": "R026",
+      "canonical": "严重慢性呼吸衰竭",
+      "icd_ranges": [
+        "J96.1"
+      ],
+      "primary_codes": [
+        "J96.100",
+        "J96.100x001"
+      ],
+      "keywords": [
+        "慢性呼吸衰竭",
+        "呼吸衰竭",
+        "Ⅱ型呼衰"
+      ],
+      "sub_diseases": [
+        {
+          "name": "慢性呼吸衰竭",
+          "icd_examples": [
+            "J96.100",
+            "J96.100x001"
+          ]
+        }
+      ],
+      "note": "治疗 180 天后,FEV1 < 30% / PaO2 < 50mmHg"
+    },
+    {
+      "rule_id": "R027",
+      "canonical": "严重克罗恩病",
+      "icd_ranges": [
+        "K50"
+      ],
+      "primary_codes": [
+        "K50.900"
+      ],
+      "keywords": [
+        "克罗恩",
+        "克隆病",
+        "Crohn",
+        "节段性肠炎"
+      ],
+      "sub_diseases": [
+        {
+          "name": "克罗恩病",
+          "icd_examples": [
+            "K50.900",
+            "K50.000",
+            "K50.100",
+            "K50.800"
+          ]
+        }
+      ],
+      "note": "须病理诊断 + 瘘管形成 + 肠梗阻/穿孔"
+    },
+    {
+      "rule_id": "R028",
+      "canonical": "严重溃疡性结肠炎",
+      "icd_ranges": [
+        "K51"
+      ],
+      "primary_codes": [
+        "K51.900"
+      ],
+      "keywords": [
+        "溃疡性结肠炎"
+      ],
+      "sub_diseases": [
+        {
+          "name": "溃疡性结肠炎",
+          "icd_examples": [
+            "K51.900",
+            "K51.000",
+            "K51.200",
+            "K51.300",
+            "K51.500",
+            "K51.800"
+          ]
+        }
+      ],
+      "note": "已实施结肠切除或回肠造瘘术"
+    },
+    {
+      "rule_id": "R029",
+      "canonical": "严重心肌病",
+      "icd_ranges": [
+        "I42"
+      ],
+      "primary_codes": [
+        "I42.900"
+      ],
+      "keywords": [
+        "心肌病",
+        "扩张性心肌病",
+        "肥厚性心肌病"
+      ],
+      "sub_diseases": [
+        {
+          "name": "心肌病",
+          "icd_examples": [
+            "I42.900",
+            "I42.000",
+            "I42.100",
+            "I42.200",
+            "I42.500",
+            "I42.700",
+            "I42.800"
+          ]
+        }
+      ],
+      "note": "NYHA Ⅳ 级"
+    },
+    {
+      "rule_id": "R030",
+      "canonical": "慢性肺功能衰竭",
+      "icd_ranges": [
+        "J96.1"
+      ],
+      "primary_codes": [
+        "J96.100"
+      ],
+      "keywords": [
+        "慢性肺功能衰竭",
+        "肺衰"
+      ],
+      "sub_diseases": [
+        {
+          "name": "慢性呼吸衰竭",
+          "icd_examples": [
+            "J96.100",
+            "J96.100x001"
+          ]
+        }
+      ],
+      "note": "满足全部:休息时呼吸困难/PaO2<50/SaO2<80/持续输氧"
+    },
+    {
+      "rule_id": "R031",
+      "canonical": "严重多发性硬化症",
+      "icd_ranges": [
+        "G35"
+      ],
+      "primary_codes": [
+        "G35.x00"
+      ],
+      "keywords": [
+        "多发性硬化",
+        "MS",
+        "脱髓鞘"
+      ],
+      "sub_diseases": [
+        {
+          "name": "多发性硬化",
+          "icd_examples": [
+            "G35.x00"
+          ]
+        }
+      ],
+      "note": "180 天后无法独立完成移动或进食"
+    },
+    {
+      "rule_id": "R032",
+      "canonical": "严重肺泡蛋白沉积症",
+      "icd_ranges": [
+        "J84.0",
+        "J84.1"
+      ],
+      "primary_codes": [
+        "J84.000",
+        "J84.001"
+      ],
+      "keywords": [
+        "肺泡蛋白沉积",
+        "PAP"
+      ],
+      "sub_diseases": [
+        {
+          "name": "肺泡蛋白沉积症",
+          "icd_examples": [
+            "J84.000",
+            "J84.001",
+            "J84.002"
+          ]
+        }
+      ],
+      "note": "病理确诊 + 3 次全肺灌洗 + PaO2<60"
+    },
+    {
+      "rule_id": "R033",
+      "canonical": "严重全身性重症肌无力",
+      "icd_ranges": [
+        "G70.0"
+      ],
+      "primary_codes": [
+        "G70.000"
+      ],
+      "keywords": [
+        "重症肌无力",
+        "MG"
+      ],
+      "sub_diseases": [
+        {
+          "name": "重症肌无力",
+          "icd_examples": [
+            "G70.000"
+          ]
+        }
+      ],
+      "note": "药物治疗 + 胸腺切除 1 年以上仍无法控制"
+    },
+    {
+      "rule_id": "R034",
+      "canonical": "严重类风湿性关节炎",
+      "icd_ranges": [
+        "M05",
+        "M06"
+      ],
+      "primary_codes": [
+        "M06.900"
+      ],
+      "keywords": [
+        "类风湿",
+        "RA",
+        "类风湿性关节炎"
+      ],
+      "sub_diseases": [
+        {
+          "name": "类风湿性关节炎",
+          "icd_examples": [
+            "M06.900"
+          ]
+        },
+        {
+          "name": "其他特指的类风湿性关节炎",
+          "icd_examples": [
+            "M06.800"
+          ]
+        }
+      ],
+      "note": "至少侵犯 3 个主要关节 + Ⅳ 级功能障碍;M05/M06 子类需补充"
+    },
+    {
+      "rule_id": "R035",
+      "canonical": "脊髓血管病后遗症",
+      "icd_ranges": [
+        "G95.1",
+        "G82"
+      ],
+      "primary_codes": [
+        "G95.100",
+        "G82.200"
+      ],
+      "keywords": [
+        "脊髓血管",
+        "脊髓梗塞",
+        "脊髓出血",
+        "截瘫"
+      ],
+      "sub_diseases": [
+        {
+          "name": "脊髓血管病",
+          "icd_examples": [
+            "G95.100",
+            "G95.101"
+          ]
+        },
+        {
+          "name": "截瘫",
+          "icd_examples": [
+            "G82.200"
+          ]
+        }
+      ],
+      "note": "180 天后仍存在截瘫/四肢瘫"
+    },
+    {
+      "rule_id": "R036",
+      "canonical": "原发性系统性淀粉样变性",
+      "icd_ranges": [
+        "E85"
+      ],
+      "primary_codes": [
+        "E85.900"
+      ],
+      "keywords": [
+        "淀粉样变性",
+        "AL 淀粉"
+      ],
+      "sub_diseases": [
+        {
+          "name": "淀粉样变性",
+          "icd_examples": [
+            "E85.900",
+            "E85.000",
+            "E85.100",
+            "E85.200",
+            "E85.300",
+            "E85.400",
+            "E85.800"
+          ]
+        }
+      ],
+      "exclusion_warning": "排除:继发性淀粉样变性"
+    },
+    {
+      "rule_id": "R037",
+      "canonical": "破裂脑动脉瘤夹闭手术",
+      "icd_ranges": [
+        "I67.1",
+        "I60"
+      ],
+      "primary_codes": [
+        "I67.100",
+        "I60.900"
+      ],
+      "keywords": [
+        "脑动脉瘤",
+        "动脉瘤夹闭",
+        "蛛网膜下腔出血"
+      ],
+      "sub_diseases": [
+        {
+          "name": "脑动脉瘤",
+          "icd_examples": [
+            "I67.100",
+            "I67.101"
+          ]
+        },
+        {
+          "name": "蛛网膜下腔出血",
+          "icd_examples": [
+            "I60.900"
+          ]
+        }
+      ],
+      "exclusion_warning": "排除:未破裂预防性手术/栓塞/血管内手术"
+    },
+    {
+      "rule_id": "R038",
+      "canonical": "严重弥漫性系统性硬皮病",
+      "icd_ranges": [
+        "M34.0",
+        "M34.1",
+        "M34.9"
+      ],
+      "primary_codes": [
+        "M34.900",
+        "M34.800"
+      ],
+      "keywords": [
+        "硬皮病",
+        "系统性硬化",
+        "SSc"
+      ],
+      "sub_diseases": [
+        {
+          "name": "进行性系统性硬化",
+          "icd_examples": [
+            "M34.000",
+            "M34.100",
+            "M34.800",
+            "M34.900"
+          ]
+        }
+      ],
+      "exclusion_warning": "排除:局限硬皮病、嗜酸细胞筋膜炎、CREST 综合征"
+    },
+    {
+      "rule_id": "R039",
+      "canonical": "严重冠心病",
+      "icd_ranges": [
+        "I25"
+      ],
+      "primary_codes": [
+        "I25.100",
+        "I25.900"
+      ],
+      "keywords": [
+        "冠心病",
+        "冠状动脉粥样硬化",
+        "冠状动脉狭窄"
+      ],
+      "sub_diseases": [
+        {
+          "name": "冠状动脉粥样硬化性心脏病",
+          "icd_examples": [
+            "I25.100",
+            "I25.900"
+          ]
+        }
+      ],
+      "note": "左主干/前降支等堵塞 ≥ 75%"
+    },
+    {
+      "rule_id": "R040",
+      "canonical": "严重慢性复发性胰腺炎",
+      "icd_ranges": [
+        "K86.1"
+      ],
+      "primary_codes": [
+        "K86.100"
+      ],
+      "keywords": [
+        "慢性胰腺炎",
+        "复发性胰腺炎"
+      ],
+      "sub_diseases": [
+        {
+          "name": "慢性胰腺炎",
+          "icd_examples": [
+            "K86.100",
+            "K86.101"
+          ]
+        }
+      ],
+      "exclusion_warning": "排除:酒精导致的慢性复发性胰腺炎"
+    },
+    {
+      "rule_id": "R041",
+      "canonical": "植物人状态",
+      "icd_ranges": [
+        "R40.2",
+        "G93.1"
+      ],
+      "primary_codes": [
+        "R40.200",
+        "G93.100"
+      ],
+      "keywords": [
+        "植物人",
+        "持续植物状态",
+        "PVS"
+      ],
+      "sub_diseases": [
+        {
+          "name": "持续性植物状态",
+          "icd_examples": [
+            "G93.100"
+          ]
+        }
+      ],
+      "note": "须持续 ≥ 30 天;有严重颅脑外伤证据"
+    },
+    {
+      "rule_id": "R042",
+      "canonical": "重症急性坏死性筋膜炎",
+      "icd_ranges": [
+        "M72.6"
+      ],
+      "primary_codes": [
+        "M72.600"
+      ],
+      "keywords": [
+        "坏死性筋膜炎",
+        "食肉菌感染"
+      ],
+      "sub_diseases": [
+        {
+          "name": "坏死性筋膜炎",
+          "icd_examples": [
+            "M72.600",
+            "M72.601"
+          ]
+        }
+      ],
+      "note": "细菌培养 + 截肢"
+    },
+    {
+      "rule_id": "R043",
+      "canonical": "慢性肾上腺皮质功能不全",
+      "icd_ranges": [
+        "E27.1",
+        "E27.2"
+      ],
+      "primary_codes": [
+        "E27.100",
+        "E27.200"
+      ],
+      "keywords": [
+        "肾上腺皮质功能不全",
+        "Addison"
+      ],
+      "sub_diseases": [
+        {
+          "name": "肾上腺皮质功能减退",
+          "icd_examples": [
+            "E27.100",
+            "E27.200"
+          ]
+        }
+      ],
+      "exclusion_warning": "排除:肾上腺结核、HIV/感染/肿瘤/继发性"
+    },
+    {
+      "rule_id": "R044",
+      "canonical": "严重心肌炎",
+      "icd_ranges": [
+        "I40",
+        "I41"
+      ],
+      "primary_codes": [
+        "I40.900"
+      ],
+      "keywords": [
+        "心肌炎",
+        "暴发性心肌炎"
+      ],
+      "sub_diseases": [
+        {
+          "name": "急性心肌炎",
+          "icd_examples": [
+            "I40.900",
+            "I40.000",
+            "I40.100",
+            "I40.800"
+          ]
+        }
+      ],
+      "note": "NYHA Ⅳ 级 + 持续 180 天;I41 感染性心肌炎亚类在国临版字典中暂未收录"
+    },
+    {
+      "rule_id": "R045",
+      "canonical": "慢性肺源性心脏病",
+      "icd_ranges": [
+        "I27.9"
+      ],
+      "primary_codes": [
+        "I27.900"
+      ],
+      "keywords": [
+        "肺源性心脏病",
+        "肺心病"
+      ],
+      "sub_diseases": [
+        {
+          "name": "慢性肺源性心脏病",
+          "icd_examples": [
+            "I27.900"
+          ]
+        }
+      ],
+      "note": "NYHA Ⅳ 级"
+    },
+    {
+      "rule_id": "R046",
+      "canonical": "严重原发性硬化性胆管炎",
+      "icd_ranges": [
+        "K83.0"
+      ],
+      "primary_codes": [
+        "K83.000"
+      ],
+      "keywords": [
+        "硬化性胆管炎",
+        "PSC"
+      ],
+      "sub_diseases": [
+        {
+          "name": "硬化性胆管炎",
+          "icd_examples": [
+            "K83.000",
+            "K83.001"
+          ]
+        }
+      ],
+      "note": "ERCP/PTC 确诊 + 持续黄疸 + 胆汁性肝硬化"
+    },
+    {
+      "rule_id": "R047",
+      "canonical": "严重自身免疫性肝炎",
+      "icd_ranges": [
+        "K75.4"
+      ],
+      "primary_codes": [
+        "K75.400"
+      ],
+      "keywords": [
+        "自身免疫性肝炎",
+        "AIH"
+      ],
+      "sub_diseases": [
+        {
+          "name": "自身免疫性肝炎",
+          "icd_examples": [
+            "K75.400"
+          ]
+        }
+      ],
+      "note": "高γ球蛋白 + 自身抗体 + 活检确诊;K75.4 子类需补充"
+    },
+    {
+      "rule_id": "R048",
+      "canonical": "原发性骨髓纤维化(PMF)",
+      "icd_ranges": [
+        "D75.8",
+        "D47.1"
+      ],
+      "primary_codes": [
+        "D47.100",
+        "D75.800"
+      ],
+      "keywords": [
+        "骨髓纤维化",
+        "PMF"
+      ],
+      "sub_diseases": [
+        {
+          "name": "原发性骨髓纤维化",
+          "icd_examples": [
+            "D47.100",
+            "D75.800"
+          ]
+        }
+      ],
+      "exclusion_warning": "排除:恶性肿瘤/中毒/放射线/感染所致的继发性"
+    },
+    {
+      "rule_id": "R049",
+      "canonical": "严重骨髓增生异常综合征(MDS)",
+      "icd_ranges": [
+        "D46"
+      ],
+      "primary_codes": [
+        "D46.900"
+      ],
+      "keywords": [
+        "MDS",
+        "骨髓增生异常",
+        "RAEB"
+      ],
+      "sub_diseases": [
+        {
+          "name": "骨髓增生异常综合征",
+          "icd_examples": [
+            "D46.900",
+            "D46.000",
+            "D46.001",
+            "D46.100",
+            "D46.101"
+          ]
+        }
+      ],
+      "note": "WHO 分型 RAEB + IPSS-R ≥ 3;D46.2/4/7/8 子类需补充"
+    },
+    {
+      "rule_id": "R050",
+      "canonical": "严重急性主动脉夹层血肿",
+      "icd_ranges": [
+        "I71.0"
+      ],
+      "primary_codes": [
+        "I71.000",
+        "I71.001"
+      ],
+      "keywords": [
+        "主动脉夹层",
+        "主动脉夹层血肿",
+        "AD"
+      ],
+      "sub_diseases": [
+        {
+          "name": "主动脉夹层",
+          "icd_examples": [
+            "I71.000",
+            "I71.001",
+            "I71.002",
+            "I71.003"
+          ]
+        }
+      ],
+      "exclusion_warning": "排除:慢性期择期手术/经导管介入"
+    },
+    {
+      "rule_id": "R051",
+      "canonical": "严重缩窄性心包炎",
+      "icd_ranges": [
+        "I31.1"
+      ],
+      "primary_codes": [
+        "I31.100"
+      ],
+      "keywords": [
+        "缩窄性心包炎"
+      ],
+      "sub_diseases": [
+        {
+          "name": "慢性缩窄性心包炎",
+          "icd_examples": [
+            "I31.100",
+            "I31.101"
+          ]
+        }
+      ],
+      "exclusion_warning": "排除:胸腔镜/胸壁打孔/心包粘连松解"
+    },
+    {
+      "rule_id": "R052",
+      "canonical": "心脏粘液瘤手术切除",
+      "icd_ranges": [
+        "D15.1",
+        "D15.2"
+      ],
+      "primary_codes": [
+        "D15.100",
+        "D15.200"
+      ],
+      "keywords": [
+        "心脏粘液瘤"
+      ],
+      "sub_diseases": [
+        {
+          "name": "心脏良性肿瘤",
+          "icd_examples": [
+            "D15.100",
+            "D15.200"
+          ]
+        }
+      ],
+      "exclusion_warning": "排除:经导管介入治疗"
+    },
+    {
+      "rule_id": "R053",
+      "canonical": "严重心脏衰竭CRT心脏同步治疗",
+      "icd_ranges": [
+        "Z95.0"
+      ],
+      "primary_codes": [
+        "Z95.000x003"
+      ],
+      "keywords": [
+        "CRT",
+        "心脏再同步",
+        "起搏器"
+      ],
+      "sub_diseases": [
+        {
+          "name": "具有心脏再同步治疗起搏器",
+          "icd_examples": [
+            "Z95.000x003"
+          ]
+        },
+        {
+          "name": "具有复律除颤器",
+          "icd_examples": [
+            "Z95.000x004"
+          ]
+        }
+      ],
+      "note": "CRT 治疗 + 心功能 Ⅲ-Ⅳ 级 + LVEF < 35%"
+    },
+    {
+      "rule_id": "R054",
+      "canonical": "完全性房室传导阻滞",
+      "icd_ranges": [
+        "I44.2",
+        "I44.3"
+      ],
+      "primary_codes": [
+        "I44.200"
+      ],
+      "keywords": [
+        "房室传导阻滞",
+        "Ⅲ度 AVB",
+        "完全性阻滞"
+      ],
+      "sub_diseases": [
+        {
+          "name": "完全性房室传导阻滞",
+          "icd_examples": [
+            "I44.200"
+          ]
+        },
+        {
+          "name": "其他房室传导阻滞",
+          "icd_examples": [
+            "I44.300"
+          ]
+        }
+      ],
+      "note": "永久起搏器植入"
+    },
+    {
+      "rule_id": "R055",
+      "canonical": "头臂动脉型多发性大动脉炎开胸旁路移植手术",
+      "icd_ranges": [
+        "M31.4",
+        "I77.6"
+      ],
+      "primary_codes": [
+        "M31.400"
+      ],
+      "keywords": [
+        "多发性大动脉炎",
+        "高安氏动脉炎",
+        "无脉症"
+      ],
+      "sub_diseases": [
+        {
+          "name": "多发性大动脉炎",
+          "icd_examples": [
+            "M31.400"
+          ]
+        }
+      ],
+      "note": "头臂动脉型(Ⅰ型)+ 开胸旁路移植;M31.4 子类需补充"
+    },
+    {
+      "rule_id": "R056",
+      "canonical": "肺淋巴管肌瘤病",
+      "icd_ranges": [
+        "J84.8"
+      ],
+      "primary_codes": [
+        "J84.800"
+      ],
+      "keywords": [
+        "淋巴管肌瘤病",
+        "LAM",
+        "肺淋巴管肌瘤"
+      ],
+      "sub_diseases": [
+        {
+          "name": "肺淋巴管肌瘤病",
+          "icd_examples": [
+            "J84.800"
+          ]
+        }
+      ],
+      "exclusion_warning": "排除:疑似 LAM"
+    },
+    {
+      "rule_id": "R057",
+      "canonical": "严重肺结节病",
+      "icd_ranges": [
+        "D86.0",
+        "D86.9"
+      ],
+      "primary_codes": [
+        "D86.000",
+        "D86.900"
+      ],
+      "keywords": [
+        "结节病",
+        "肺结节病",
+        "Boeck"
+      ],
+      "sub_diseases": [
+        {
+          "name": "肺结节病",
+          "icd_examples": [
+            "D86.000",
+            "D86.200",
+            "D86.900"
+          ]
+        }
+      ],
+      "note": "Ⅳ 期广泛肺纤维化 + 180 天 PaO2 < 50"
+    },
+    {
+      "rule_id": "R058",
+      "canonical": "非阿尔茨海默病致严重痴呆",
+      "icd_ranges": [
+        "F02",
+        "F03"
+      ],
+      "primary_codes": [],
+      "keywords": [
+        "痴呆",
+        "认知障碍",
+        "非 AD 痴呆"
+      ],
+      "sub_diseases": [
+        {
+          "name": "其他类型痴呆",
+          "icd_examples": []
+        }
+      ],
+      "exclusion_warning": "排除:神经官能症、精神疾病、酒精中毒;F02/F03 子类在国临版 ICD 字典中暂未收录",
+      "note": ";F02 痴呆亚类在国临版 ICD 字典中暂未收录,后续补充"
+    },
+    {
+      "rule_id": "R059",
+      "canonical": "进行性核上性麻痹",
+      "icd_ranges": [
+        "G23.1"
+      ],
+      "primary_codes": [
+        "G23.100"
+      ],
+      "keywords": [
+        "进行性核上性麻痹",
+        "PSP",
+        "Steele-Richardson"
+      ],
+      "sub_diseases": [
+        {
+          "name": "进行性核上性麻痹",
+          "icd_examples": [
+            "G23.100"
+          ]
+        }
+      ],
+      "note": "生活能力完全丧失 + 监护"
+    },
+    {
+      "rule_id": "R060",
+      "canonical": "亚急性硬化性全脑炎",
+      "icd_ranges": [
+        "A81.1"
+      ],
+      "primary_codes": [
+        "A81.100"
+      ],
+      "keywords": [
+        "亚急性硬化性全脑炎",
+        "SSPE"
+      ],
+      "sub_diseases": [
+        {
+          "name": "亚急性硬化性全脑炎",
+          "icd_examples": [
+            "A81.100"
+          ]
+        }
+      ],
+      "note": "三级医院 + 脑电图 + 麻疹抗体滴定度"
+    },
+    {
+      "rule_id": "R061",
+      "canonical": "进行性多灶性白质脑病",
+      "icd_ranges": [
+        "A81.2"
+      ],
+      "primary_codes": [
+        "A81.200"
+      ],
+      "keywords": [
+        "进行性多灶性白质脑病",
+        "PML"
+      ],
+      "sub_diseases": [
+        {
+          "name": "进行性多灶性白质脑病",
+          "icd_examples": [
+            "A81.200"
+          ]
+        }
+      ],
+      "note": "须生前诊断"
+    },
+    {
+      "rule_id": "R062",
+      "canonical": "丧失独立生活能力",
+      "icd_ranges": [
+        "R26",
+        "R27"
+      ],
+      "primary_codes": [
+        "R26.000",
+        "R26.800"
+      ],
+      "keywords": [
+        "丧失独立生活能力"
+      ],
+      "sub_diseases": [
+        {
+          "name": "运动/活动障碍",
+          "icd_examples": [
+            "R26.000",
+            "R26.800"
+          ]
+        }
+      ],
+      "note": "≥ 6 周岁 + 4 项以上基本生活活动无法完成"
+    },
+    {
+      "rule_id": "R063",
+      "canonical": "脊髓灰质炎后遗症",
+      "icd_ranges": [
+        "A80",
+        "B91"
+      ],
+      "primary_codes": [
+        "A80.900",
+        "B91.x00"
+      ],
+      "keywords": [
+        "脊髓灰质炎",
+        "小儿麻痹"
+      ],
+      "sub_diseases": [
+        {
+          "name": "急性脊髓灰质炎",
+          "icd_examples": [
+            "A80.900",
+            "A80.000",
+            "A80.100",
+            "A80.200",
+            "A80.300"
+          ]
+        },
+        {
+          "name": "脊髓灰质炎后遗症",
+          "icd_examples": [
+            "B91.x00"
+          ]
+        }
+      ],
+      "note": "须明确诊断 + 一肢以上永久完全丧失"
+    },
+    {
+      "rule_id": "R064",
+      "canonical": "脊髓内肿瘤",
+      "icd_ranges": [
+        "C72.0",
+        "D33.4"
+      ],
+      "primary_codes": [
+        "C72.000",
+        "D33.400"
+      ],
+      "keywords": [
+        "脊髓内肿瘤",
+        "椎管内肿瘤"
+      ],
+      "sub_diseases": [
+        {
+          "name": "脊髓内良性肿瘤",
+          "icd_examples": [
+            "D33.400",
+            "D33.700"
+          ]
+        },
+        {
+          "name": "脊髓内恶性肿瘤",
+          "icd_examples": [
+            "C72.000"
+          ]
+        }
+      ],
+      "exclusion_warning": "排除:非脊髓内的椎管内肿瘤、脊柱肿瘤、神经纤维瘤"
+    },
+    {
+      "rule_id": "R065",
+      "canonical": "脊髓空洞症",
+      "icd_ranges": [
+        "G95.0"
+      ],
+      "primary_codes": [
+        "G95.000"
+      ],
+      "keywords": [
+        "脊髓空洞症",
+        "延髓空洞"
+      ],
+      "sub_diseases": [
+        {
+          "name": "脊髓空洞症",
+          "icd_examples": [
+            "G95.000",
+            "G95.001"
+          ]
+        }
+      ],
+      "note": "180 天后仍有神经系统缺失"
+    },
+    {
+      "rule_id": "R066",
+      "canonical": "严重哮喘",
+      "icd_ranges": [
+        "J45",
+        "J46"
+      ],
+      "primary_codes": [
+        "J45.900",
+        "J46.x00"
+      ],
+      "keywords": [
+        "哮喘",
+        "支气管哮喘"
+      ],
+      "sub_diseases": [
+        {
+          "name": "哮喘",
+          "icd_examples": [
+            "J45.900",
+            "J45.000",
+            "J45.100",
+            "J45.800"
+          ]
+        },
+        {
+          "name": "哮喘持续状态",
+          "icd_examples": [
+            "J46.x00"
+          ]
+        }
+      ],
+      "note": "4 项标准满足 3 项"
+    },
+    {
+      "rule_id": "R067",
+      "canonical": "严重强直性脊柱炎",
+      "icd_ranges": [
+        "M45"
+      ],
+      "primary_codes": [
+        "M45.x00"
+      ],
+      "keywords": [
+        "强直性脊柱炎",
+        "AS"
+      ],
+      "sub_diseases": [
+        {
+          "name": "强直性脊柱炎",
+          "icd_examples": [
+            "M45.x00"
+          ]
+        }
+      ],
+      "note": "严重脊柱畸形 + 生活能力完全丧失"
+    },
+    {
+      "rule_id": "R068",
+      "canonical": "开颅手术",
+      "icd_ranges": [
+        "Z90.0"
+      ],
+      "primary_codes": [
+        "Z90.000x016"
+      ],
+      "keywords": [
+        "开颅手术",
+        "颅骨切开",
+        "脑血肿清除"
+      ],
+      "sub_diseases": [
+        {
+          "name": "颅骨缺损修补",
+          "icd_examples": [
+            "Z90.000x016"
+          ]
+        }
+      ],
+      "exclusion_warning": "排除:颅骨打孔/硬膜下/外血肿清除/未破裂动脉瘤预防/栓塞/血管内/减压/分流/经蝶骨/开颅动脉瘤夹闭/其他原因"
+    },
+    {
+      "rule_id": "R069",
+      "canonical": "系统性红斑狼疮性肾炎尿毒症",
+      "icd_ranges": [
+        "M32.1",
+        "N18",
+        "N19"
+      ],
+      "primary_codes": [
+        "M32.100",
+        "N18.000"
+      ],
+      "keywords": [
+        "系统性红斑狼疮",
+        "狼疮肾炎",
+        "SLE",
+        "SLE 肾炎"
+      ],
+      "sub_diseases": [
+        {
+          "name": "系统性红斑狼疮",
+          "icd_examples": [
+            "M32.100"
+          ]
+        },
+        {
+          "name": "狼疮性肾炎",
+          "icd_examples": [
+            "M32.100"
+          ]
+        }
+      ],
+      "exclusion_warning": "排除:盘状狼疮、仅累及血液/关节的狼疮;M32.8/9、N08/N16 编码需补充"
+    },
+    {
+      "rule_id": "R070",
+      "canonical": "席汉氏综合征",
+      "icd_ranges": [
+        "E23.0"
+      ],
+      "primary_codes": [
+        "E23.000"
+      ],
+      "keywords": [
+        "席汉氏综合征",
+        "Sheehan",
+        "产后垂体坏死"
+      ],
+      "sub_diseases": [
+        {
+          "name": "席汉氏综合征",
+          "icd_examples": [
+            "E23.000"
+          ]
+        }
+      ],
+      "exclusion_warning": "排除:垂体功能部分低下及其他原因所致的"
+    },
+    {
+      "rule_id": "R071",
+      "canonical": "神经白塞病",
+      "icd_ranges": [
+        "M35.2"
+      ],
+      "primary_codes": [
+        "M35.200"
+      ],
+      "keywords": [
+        "白塞病",
+        "贝赫切特",
+        "神经白塞"
+      ],
+      "sub_diseases": [
+        {
+          "name": "白塞病/贝赫切特病",
+          "icd_examples": [
+            "M35.200"
+          ]
+        }
+      ],
+      "note": "神经系统损害 + 180 天"
+    },
+    {
+      "rule_id": "R072",
+      "canonical": "严重幼年型类风湿关节炎",
+      "icd_ranges": [
+        "M08"
+      ],
+      "primary_codes": [
+        "M08.000",
+        "M08.300"
+      ],
+      "keywords": [
+        "幼年型类风湿",
+        "JIA",
+        "Still 病"
+      ],
+      "sub_diseases": [
+        {
+          "name": "幼年型类风湿关节炎",
+          "icd_examples": [
+            "M08.000",
+            "M08.300"
+          ]
+        }
+      ],
+      "note": "膝/髋关节置换术;M08 子类需补充"
+    },
+    {
+      "rule_id": "R073",
+      "canonical": "重症急性出血坏死性胰腺炎开腹手术",
+      "icd_ranges": [
+        "K85",
+        "K86.8"
+      ],
+      "primary_codes": [
+        "K85.900",
+        "K85.901"
+      ],
+      "keywords": [
+        "急性坏死性胰腺炎",
+        "出血坏死性胰腺炎"
+      ],
+      "sub_diseases": [
+        {
+          "name": "急性坏死性胰腺炎",
+          "icd_examples": [
+            "K85.900",
+            "K85.901",
+            "K85.800"
+          ]
+        }
+      ],
+      "exclusion_warning": "排除:腹腔镜手术/酗酒/饮酒过量"
+    },
+    {
+      "rule_id": "R074",
+      "canonical": "溶血性链球菌感染引起的坏疽",
+      "icd_ranges": [
+        "A40",
+        "A49",
+        "R02"
+      ],
+      "primary_codes": [
+        "A40.900",
+        "R02.x00"
+      ],
+      "keywords": [
+        "溶血性链球菌",
+        "坏疽",
+        "食肉菌"
+      ],
+      "sub_diseases": [
+        {
+          "name": "链球菌败血症",
+          "icd_examples": [
+            "A40.900",
+            "A40.000",
+            "A40.100",
+            "A40.200",
+            "A40.300",
+            "A40.800"
+          ]
+        },
+        {
+          "name": "坏疽",
+          "icd_examples": [
+            "R02.x00"
+          ]
+        }
+      ],
+      "note": "细菌培养 + 截肢"
+    },
+    {
+      "rule_id": "R075",
+      "canonical": "因疾病或外伤导致智力缺陷",
+      "icd_ranges": [
+        "F70-F79"
+      ],
+      "primary_codes": [
+        "F79.900"
+      ],
+      "keywords": [
+        "智力缺陷",
+        "智力低下",
+        "智力残疾"
+      ],
+      "sub_diseases": [
+        {
+          "name": "轻度智力障碍(IQ 50-70)",
+          "icd_examples": []
+        },
+        {
+          "name": "中度智力障碍(IQ 35-49)",
+          "icd_examples": []
+        },
+        {
+          "name": "重度智力障碍(IQ 20-34)",
+          "icd_examples": []
+        },
+        {
+          "name": "极重度智力障碍(IQ < 20)",
+          "icd_examples": []
+        }
+      ],
+      "note": "≥ 6 周岁;IQ 70-85 临界不在保障范围;须 180 天;F70-F79 子类在国临版字典暂未收录"
+    },
+    {
+      "rule_id": "R076",
+      "canonical": "严重肠道疾病并发症",
+      "icd_ranges": [
+        "K63.2",
+        "K90"
+      ],
+      "primary_codes": [
+        "K63.200",
+        "K90.900"
+      ],
+      "keywords": [
+        "短肠综合征",
+        "小肠切除",
+        "肠外营养"
+      ],
+      "sub_diseases": [
+        {
+          "name": "肠瘘",
+          "icd_examples": [
+            "K63.200"
+          ]
+        },
+        {
+          "name": "小肠吸收不良",
+          "icd_examples": [
+            "K90.900",
+            "K90.000",
+            "K90.100",
+            "K90.200",
+            "K90.300",
+            "K90.400",
+            "K90.800"
+          ]
+        }
+      ],
+      "note": "切 ≥ 2/3 小肠 + 全肠外营养 ≥ 3 月"
+    },
+    {
+      "rule_id": "R077",
+      "canonical": "严重瑞氏综合征",
+      "icd_ranges": [
+        "G93.7"
+      ],
+      "primary_codes": [
+        "G93.700"
+      ],
+      "keywords": [
+        "瑞氏综合征",
+        "Reye 综合征"
+      ],
+      "sub_diseases": [
+        {
+          "name": "瑞氏综合征",
+          "icd_examples": [
+            "G93.700"
+          ]
+        }
+      ],
+      "note": "三级医院儿科 + 脑水肿 + 血氨 > 3 倍 + 昏迷 3 期"
+    },
+    {
+      "rule_id": "R078",
+      "canonical": "急性肺损伤(ALI)或急性呼吸窘迫综合征(ARDS)",
+      "icd_ranges": [
+        "J80"
+      ],
+      "primary_codes": [
+        "J80.x00"
+      ],
+      "keywords": [
+        "ALI",
+        "ARDS",
+        "急性呼吸窘迫",
+        "急性肺损伤"
+      ],
+      "sub_diseases": [
+        {
+          "name": "急性呼吸窘迫综合征",
+          "icd_examples": [
+            "J80.x00"
+          ]
+        }
+      ],
+      "note": "PaO2/FiO2 < 200 + 急性发作 6-72h"
+    },
+    {
+      "rule_id": "R079",
+      "canonical": "溶血性尿毒综合征",
+      "icd_ranges": [
+        "D58.8",
+        "D59.3",
+        "N17",
+        "N19"
+      ],
+      "primary_codes": [
+        "D59.300"
+      ],
+      "keywords": [
+        "溶血性尿毒综合征",
+        "HUS"
+      ],
+      "sub_diseases": [
+        {
+          "name": "溶血性尿毒综合征",
+          "icd_examples": [
+            "D59.300"
+          ]
+        }
+      ],
+      "exclusion_warning": "排除:自身免疫性溶血性贫血/红细胞酶病/血红蛋白病等非感染性;D58.8 子类需补充"
+    },
+    {
+      "rule_id": "R080",
+      "canonical": "严重登革热",
+      "icd_ranges": [
+        "A90",
+        "A91"
+      ],
+      "primary_codes": [
+        "A90.x00",
+        "A91.x00"
+      ],
+      "keywords": [
+        "登革热",
+        "登革出血热",
+        "DHF",
+        "DSS"
+      ],
+      "sub_diseases": [
+        {
+          "name": "登革热(经典型)",
+          "icd_examples": [
+            "A90.x00"
+          ]
+        },
+        {
+          "name": "登革出血热",
+          "icd_examples": [
+            "A91.x00"
+          ]
+        }
+      ],
+      "note": "2014 诊疗指南 + 严重并发症"
+    },
+    {
+      "rule_id": "R081",
+      "canonical": "危重手足口病",
+      "icd_ranges": [
+        "B08.4",
+        "B08.5"
+      ],
+      "primary_codes": [
+        "B08.400"
+      ],
+      "keywords": [
+        "手足口病",
+        "EV71"
+      ],
+      "sub_diseases": [
+        {
+          "name": "手足口病",
+          "icd_examples": [
+            "B08.400"
+          ]
+        }
+      ],
+      "note": "≥ 2 周住院 + 危重并发症"
+    },
+    {
+      "rule_id": "R082",
+      "canonical": "意外导致重度面部烧伤",
+      "icd_ranges": [
+        "T20.0",
+        "T20.3"
+      ],
+      "primary_codes": [
+        "T20.300"
+      ],
+      "keywords": [
+        "面部烧伤",
+        "Ⅲ度面部烧伤"
+      ],
+      "sub_diseases": [
+        {
+          "name": "面部 Ⅲ 度烧伤",
+          "icd_examples": [
+            "T20.300",
+            "T20.000"
+          ]
+        }
+      ],
+      "note": "面部 2/3 或体表 2%"
+    },
+    {
+      "rule_id": "R083",
+      "canonical": "失去一肢及一眼",
+      "icd_ranges": [
+        "Z89",
+        "H54"
+      ],
+      "primary_codes": [
+        "Z89.900",
+        "H54.000"
+      ],
+      "keywords": [
+        "失去一肢及一眼",
+        "同一次意外"
+      ],
+      "sub_diseases": [
+        {
+          "name": "后天性肢体缺失",
+          "icd_examples": [
+            "Z89.000",
+            "Z89.100",
+            "Z89.200",
+            "Z89.300",
+            "Z89.500",
+            "Z89.600",
+            "Z89.700",
+            "Z89.900"
+          ]
+        },
+        {
+          "name": "单眼盲",
+          "icd_examples": [
+            "H54.400",
+            "H54.500"
+          ]
+        }
+      ],
+      "note": "同一意外事件;≥ 3 周岁(除眼球摘除)"
+    },
+    {
+      "rule_id": "R084",
+      "canonical": "艾森门格综合征",
+      "icd_ranges": [
+        "Q21.8",
+        "I27.8"
+      ],
+      "primary_codes": [
+        "Q21.800",
+        "I27.800"
+      ],
+      "keywords": [
+        "艾森门格",
+        "Eisenmenger"
+      ],
+      "sub_diseases": [
+        {
+          "name": "艾森门格综合征",
+          "icd_examples": [
+            "I27.800",
+            "Q21.800"
+          ]
+        }
+      ],
+      "note": "肺动脉平均压 > 40 + NYHA Ⅳ"
+    },
+    {
+      "rule_id": "R085",
+      "canonical": "室壁瘤切除手术",
+      "icd_ranges": [
+        "I25.3"
+      ],
+      "primary_codes": [
+        "I25.300"
+      ],
+      "keywords": [
+        "室壁瘤",
+        "心室壁瘤"
+      ],
+      "sub_diseases": [
+        {
+          "name": "心室壁瘤",
+          "icd_examples": [
+            "I25.300"
+          ]
+        }
+      ],
+      "note": "须实际开胸切除"
+    },
+    {
+      "rule_id": "R086",
+      "canonical": "丝虫感染所致严重象皮病",
+      "icd_ranges": [
+        "B74",
+        "I89"
+      ],
+      "primary_codes": [
+        "B74.900",
+        "I89.000"
+      ],
+      "keywords": [
+        "丝虫",
+        "象皮肿",
+        "象皮病"
+      ],
+      "sub_diseases": [
+        {
+          "name": "丝虫病",
+          "icd_examples": [
+            "B74.900"
+          ]
+        },
+        {
+          "name": "淋巴水肿",
+          "icd_examples": [
+            "I89.000"
+          ]
+        }
+      ],
+      "note": "国际淋巴学会 Ⅲ 期 + 患肢增粗 30%+"
+    },
+    {
+      "rule_id": "R087",
+      "canonical": "克-雅氏病(CJD)",
+      "icd_ranges": [
+        "A81.0"
+      ],
+      "primary_codes": [
+        "A81.000"
+      ],
+      "keywords": [
+        "克雅氏",
+        "CJD",
+        "疯牛病",
+        "朊病毒"
+      ],
+      "sub_diseases": [
+        {
+          "name": "克-雅氏病",
+          "icd_examples": [
+            "A81.000"
+          ]
+        }
+      ],
+      "note": "三级医院 + WHO 诊断 + 生活能力完全丧失"
+    },
+    {
+      "rule_id": "R088",
+      "canonical": "埃博拉病毒感染",
+      "icd_ranges": [
+        "A98.4"
+      ],
+      "primary_codes": [
+        "A98.400"
+      ],
+      "keywords": [
+        "埃博拉",
+        "Ebola"
+      ],
+      "sub_diseases": [
+        {
+          "name": "埃博拉病毒病",
+          "icd_examples": [
+            "A98.400"
+          ]
+        }
+      ],
+      "exclusion_warning": "排除:确诊前已死亡的疑似病例"
+    },
+    {
+      "rule_id": "R089",
+      "canonical": "职业原因导致人类免疫缺陷病毒(HIV)感染",
+      "icd_ranges": [
+        "Z20.6",
+        "B20"
+      ],
+      "primary_codes": [
+        "B20.000",
+        "Z20.600"
+      ],
+      "keywords": [
+        "职业 HIV",
+        "职业暴露 HIV"
+      ],
+      "sub_diseases": [
+        {
+          "name": "人类免疫缺陷病毒病",
+          "icd_examples": [
+            "B20.000",
+            "B20.100",
+            "B20.200",
+            "B20.300",
+            "B20.400",
+            "B20.500",
+            "B20.600",
+            "B20.700",
+            "B20.800",
+            "B20.900"
+          ]
+        },
+        {
+          "name": "HIV 职业暴露",
+          "icd_examples": [
+            "Z20.600"
+          ]
+        }
+      ],
+      "exclusion_warning": "排除:输血/性传播/静脉注射毒品;治愈 AIDS 后不再赔付"
+    },
+    {
+      "rule_id": "R090",
+      "canonical": "输血原因导致人类免疫缺陷病毒(HIV)感染",
+      "icd_ranges": [
+        "B20",
+        "Z20.6"
+      ],
+      "primary_codes": [
+        "B20.000"
+      ],
+      "keywords": [
+        "输血 HIV",
+        "输血感染"
+      ],
+      "sub_diseases": [
+        {
+          "name": "人类免疫缺陷病毒病",
+          "icd_examples": [
+            "B20.000",
+            "B20.100",
+            "B20.200",
+            "B20.300",
+            "B20.400",
+            "B20.500",
+            "B20.600",
+            "B20.700",
+            "B20.800",
+            "B20.900"
+          ]
+        }
+      ],
+      "exclusion_warning": "排除:性传播/静脉注射毒品;非医疗责任;非血友病患者"
+    },
+    {
+      "rule_id": "R091",
+      "canonical": "器官移植原因导致人类免疫缺陷病毒(HIV)感染",
+      "icd_ranges": [
+        "B20",
+        "Z20.6",
+        "Z94"
+      ],
+      "primary_codes": [
+        "B20.000",
+        "Z94.900"
+      ],
+      "keywords": [
+        "器官移植 HIV",
+        "移植后 HIV"
+      ],
+      "sub_diseases": [
+        {
+          "name": "人类免疫缺陷病毒病",
+          "icd_examples": [
+            "B20.000"
+          ]
+        }
+      ],
+      "note": "三级医院 + 移植器官来自 HIV 感染者"
+    },
+    {
+      "rule_id": "R092",
+      "canonical": "胰腺移植术",
+      "icd_ranges": [
+        "Z94.8"
+      ],
+      "primary_codes": [
+        "Z94.800"
+      ],
+      "keywords": [
+        "胰腺移植"
+      ],
+      "sub_diseases": [
+        {
+          "name": "胰腺移植状态",
+          "icd_examples": [
+            "Z94.800"
+          ]
+        }
+      ],
+      "exclusion_warning": "排除:胰岛/组织/细胞移植"
+    },
+    {
+      "rule_id": "R093",
+      "canonical": "严重创伤弧菌感染截肢",
+      "icd_ranges": [
+        "A48.8"
+      ],
+      "primary_codes": [
+        "A48.800"
+      ],
+      "keywords": [
+        "创伤弧菌",
+        "海洋弧菌"
+      ],
+      "sub_diseases": [
+        {
+          "name": "创伤弧菌感染",
+          "icd_examples": [
+            "A48.800"
+          ]
+        }
+      ],
+      "note": "海水接触 + 病原学 + 截肢"
+    },
+    {
+      "rule_id": "R094",
+      "canonical": "角膜移植术",
+      "icd_ranges": [
+        "Z94.7"
+      ],
+      "primary_codes": [
+        "Z94.700"
+      ],
+      "keywords": [
+        "角膜移植"
+      ],
+      "sub_diseases": [
+        {
+          "name": "角膜移植状态",
+          "icd_examples": [
+            "Z94.700"
+          ]
+        }
+      ],
+      "exclusion_warning": "排除:单纯角膜细胞移植/自体角膜缘细胞/非同种来源/人工角膜"
+    },
+    {
+      "rule_id": "R095",
+      "canonical": "嗜铬细胞瘤",
+      "icd_ranges": [
+        "D35.0",
+        "C74.9",
+        "D44.7"
+      ],
+      "primary_codes": [
+        "D35.000",
+        "C74.900"
+      ],
+      "keywords": [
+        "嗜铬细胞瘤"
+      ],
+      "sub_diseases": [
+        {
+          "name": "嗜铬细胞瘤(良性)",
+          "icd_examples": [
+            "D35.000"
+          ]
+        },
+        {
+          "name": "嗜铬细胞瘤(恶性)",
+          "icd_examples": [
+            "C74.900"
+          ]
+        }
+      ],
+      "note": "高血压 + 切除术"
+    },
+    {
+      "rule_id": "R096",
+      "canonical": "严重结核性脑膜炎",
+      "icd_ranges": [
+        "A17.0",
+        "G01.x"
+      ],
+      "primary_codes": [
+        "A17.000+G01*",
+        "A17.000x005+G01*"
+      ],
+      "keywords": [
+        "结核性脑膜炎",
+        "结脑"
+      ],
+      "sub_diseases": [
+        {
+          "name": "结核性脑膜炎",
+          "icd_examples": [
+            "A17.000+G01*",
+            "A17.001+G01*",
+            "A17.000x005+G01*",
+            "G01*"
+          ]
+        },
+        {
+          "name": "脑膜炎(细菌性)",
+          "icd_examples": [
+            "A17.000+G01*",
+            "A17.001+G01*",
+            "A17.000x005+G01*",
+            "G01*"
+          ]
+        }
+      ],
+      "note": "颅内压↑ + 癫痫 + 意识障碍 + 颅神经麻痹;A17 字典是星剑码(如 A17.000+G01*)"
+    },
+    {
+      "rule_id": "R097",
+      "canonical": "严重巨细胞动脉炎",
+      "icd_ranges": [
+        "M31.5",
+        "M31.6"
+      ],
+      "primary_codes": [
+        "M31.500",
+        "M31.600"
+      ],
+      "keywords": [
+        "巨细胞动脉炎",
+        "颞动脉炎",
+        "颅动脉炎"
+      ],
+      "sub_diseases": [
+        {
+          "name": "巨细胞动脉炎",
+          "icd_examples": [
+            "M31.500",
+            "M31.600"
+          ]
+        }
+      ],
+      "note": "单肢体功能障碍 或 单眼失明;M31.5/6 子类需补充"
+    },
+    {
+      "rule_id": "R098",
+      "canonical": "多发性骨髓瘤",
+      "icd_ranges": [
+        "C90.0"
+      ],
+      "primary_codes": [
+        "C90.000",
+        "C90.001"
+      ],
+      "keywords": [
+        "多发性骨髓瘤",
+        "MM"
+      ],
+      "sub_diseases": [
+        {
+          "name": "多发性骨髓瘤",
+          "icd_examples": [
+            "C90.000",
+            "C90.001",
+            "C90.002"
+          ]
+        }
+      ],
+      "exclusion_warning": "排除:孤立性骨髓瘤"
+    },
+    {
+      "rule_id": "R099",
+      "canonical": "狂犬病",
+      "icd_ranges": [
+        "A82"
+      ],
+      "primary_codes": [
+        "A82.900"
+      ],
+      "keywords": [
+        "狂犬病",
+        "恐水病"
+      ],
+      "sub_diseases": [
+        {
+          "name": "森林狂犬病",
+          "icd_examples": [
+            "A82.000"
+          ]
+        },
+        {
+          "name": "城市狂犬病",
+          "icd_examples": [
+            "A82.100"
+          ]
+        },
+        {
+          "name": "未特指狂犬病",
+          "icd_examples": [
+            "A82.900"
+          ]
+        }
+      ],
+      "note": "专科医生明确诊断"
+    },
+    {
+      "rule_id": "R100",
+      "canonical": "皮质基底节变性",
+      "icd_ranges": [
+        "G23.8"
+      ],
+      "primary_codes": [
+        "G23.800"
+      ],
+      "keywords": [
+        "皮质基底节变性",
+        "CBD"
+      ],
+      "sub_diseases": [
+        {
+          "name": "皮质基底节变性",
+          "icd_examples": [
+            "G23.800"
+          ]
+        }
+      ],
+      "note": "生活能力完全丧失 + 监护"
+    }
+  ]
+}
