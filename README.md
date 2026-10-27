@@ -5,7 +5,7 @@
 对一组理赔申请材料(病理报告、诊断证明、出院小结、检查报告等),通过
 **OCR → 聚合 → LLM 抽取 → 规则 + LLM 投票判定**,输出三分类结论。
 
-\---
+---
 
 ## 结论三分类
 
@@ -15,7 +15,7 @@
 |**否**|本次确诊不构成重疾|criteria 未过 / exclusion 命中 / 既往病史 / confidence < 0.70 / 疾病不在 100 种白名单|
 |**无法认定**|关键材料 / 关键指标 / 解析失败|硬规则触发(6 种): 缺材料 / 缺诊断 / 缺指标 / 疾病不在白名单 / 兜底失败|
 
-\---
+---
 
 ## 端到端流水线
 
@@ -83,7 +83,7 @@
             (结论 + 置信度 + 规则 + 风险码 + 评析)
 ```
 
-\---
+---
 
 ## 项目结构
 
@@ -137,7 +137,7 @@ insurance\_ai/
 └── .env / requirements.txt
 ```
 
-\---
+---
 
 ## 快速开始
 
@@ -155,27 +155,27 @@ cp .env.example .env
 # 填 INSURANCE_LLM_BASE_URL / INSURANCE_LLM_API_KEY / INSURANCE_LLM_MODEL
 
 # 4. 跑单案例
-python -m scripts.batch_run single \\
-  --case <CASE_ID> \\
+python -m scripts.batch_run single \
+  --case <CASE_ID> \
   --dir <路径/到/案例目录>
 
 # 5. 批跑一个目录下的所有案例
-python -m scripts.batch_run batch \\
-  --batch-dir <路径/到/案例根目录> \\
+python -m scripts.batch_run batch \
+  --batch-dir <路径/到/案例根目录> \
   --limit 5
 ```
 
-\---
+---
 
 启动 WebUI
 
 ```bash
 # 启动 streamlit
-streamlit run src/webui/app.py \\
-  --server.headless true \\
-  --server.port 8502 \\
-  --server.address 0.0.0.0 \\
-  --server.fileWatcherType poll \\
+streamlit run src/webui/app.py \
+  --server.headless true \
+  --server.port 8502 \
+  --server.address 0.0.0.0 \
+  --server.fileWatcherType poll \
   --browser.gatherUsageStats false
 ```
 
